@@ -1,0 +1,22 @@
+#:kivy 1.8.0
+#:import _ __main__._
+
+BoxLayout:
+    orientation: 'vertical'
+
+    Label:
+        text: _('Hello World')
+
+    BoxLayout:
+        size_hint_y: None
+        height: '48dp'
+        spacing: '2dp'
+        padding: '3dp'
+
+        Button:
+            text: _('French')
+            on_release: app.lang = 'fr'
+
+        Button:
+            text: _('English')
+            on_release: app.lang = 'en'

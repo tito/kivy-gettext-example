@@ -28,7 +28,7 @@ class _(str):
         locale_dir = join(dirname(__file__), 'data', 'locales')
         locales = gettext.translation('langapp', locale_dir,
             languages=[lang])
-        _.lang = locales.ugettext
+        _.lang = locales.gettext
 
         # update all the kv rules attached to this text
         for callback in _.observers:

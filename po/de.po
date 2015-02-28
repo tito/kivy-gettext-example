@@ -18,16 +18,16 @@ msgstr ""
 
 #: lang.kv:8
 msgid "Hello World"
-msgstr ""
+msgstr "Hallo Welt"
 
 #: lang.kv:17
 msgid "French"
-msgstr ""
+msgstr "Französisch"
 
 #: lang.kv:21
 msgid "English"
-msgstr ""
+msgstr "Englisch"
 
 #: lang.kv:25
 msgid "German"
-msgstr ""
+msgstr "Deutsch"

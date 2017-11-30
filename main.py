@@ -1,6 +1,6 @@
 from kivy.app import App
 from kivy.properties import StringProperty
-from kivy.lang import Observable, EventDispatcher
+from kivy.lang import Observable
 from os.path import join, dirname
 import gettext
 
@@ -36,7 +36,7 @@ class Lang(Observable):
         # get the right locales directory, and instanciate a gettext
         locale_dir = join(dirname(__file__), 'data', 'locales')
         locales = gettext.translation('langapp', locale_dir, languages=[lang])
-        self.ugettext = locales.ugettext
+        self.ugettext = locales.gettext
 
         # update all the kv rules attached to this text
         for func, largs, kwargs in self.observers:

@@ -1,0 +1,60 @@
+#:import Clock kivy.clock.Clock
+
+<TrSettingTitle@SettingTitle>:
+
+<TrSettingString@SettingString,TrSettingBoolean@SettingBoolean,TrSettingNumeric@SettingNumeric,TrSettingOptions@SettingOptions,TrSettingPath@SettingPath>:
+    tr_title: ''
+    tr_desc: ''
+    title: tr._(self.tr_title)
+    desc: tr._(self.tr_desc)
+
+    selected_alpha: 0
+    on_release:
+        self.disabled = True
+        Clock.schedule_once(lambda *x: self.setter('disabled')(self, False), .2)
+
+<TrOptionsPopup>:
+    RecycleView:
+        viewclass: 'TrOptionsChoice'
+        data:
+            [
+            {
+            'text': option,
+            'state': 'down' if root.manager.value == option else 'normal',
+            'group': str(self.uid),
+            'manager': root.manager,
+            'popup': root,
+            }
+            for option in root.options
+            ]
+
+        RecycleBoxLayout:
+            id: box
+            orientation: 'vertical'
+            size_hint_y: None
+            height: self.minimum_height
+            default_size_hint: 1, None
+            default_size: 0, dp(50)
+
+<TrOptionsChoice>:
+    size_hint_y: None
+    on_release:
+        self.manager.value = self.text
+        self.popup.dismiss()
+
+<-MenuSpinner>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: '50dp'
+    spinner: spinner
+    spinner_text: spinner.text
+    close_button: button
+    Spinner:
+        id: spinner
+    Button:
+        text: tr._('close')
+        id: button
+        size_hint_x: None
+        width: min(dp(200), 0.4*root.width)
+        font_size: '15sp'
+

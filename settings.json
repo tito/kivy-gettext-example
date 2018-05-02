@@ -1,0 +1,28 @@
+[
+  {
+  "type": "tr_title",
+  "tr_title": "General"
+  },
+  {
+      "type": "tr_options",
+      "options": ["en", "fr"],
+      "tr_title": "language",
+      "tr_desc": "language to display the application in",
+      "section": "general",
+      "key": "lang"
+  },
+  {
+    "type": "tr_numeric",
+    "tr_title": "some numeric value",
+    "tr_desc": "description of numeric value",
+    "section": "general",
+    "key": "some_numeric_value"
+  },
+  {
+    "type": "tr_string",
+    "tr_title": "some string value",
+    "tr_desc": "description of string value",
+    "section": "general",
+    "key": "some_string_value"
+   }
+]

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-01 15:36+0200\n"
+"POT-Creation-Date: 2018-05-02 02:09+0200\n"
 "PO-Revision-Date: 2013-08-01 15:36+0200\n"
 "Last-Translator: Mathieu Virbel <mat@kivy.org>\n"
 "Language-Team: Mathieu Virbel <mat@kivy.org>\n"
@@ -15,6 +15,34 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: settings_tmp.py:1
+msgid "General"
+msgstr ""
+
+#: settings_tmp.py:2
+msgid "language"
+msgstr ""
+
+#: settings_tmp.py:3
+msgid "language to display the application in"
+msgstr ""
+
+#: settings_tmp.py:4
+msgid "some numeric value"
+msgstr ""
+
+#: settings_tmp.py:5
+msgid "description of numeric value"
+msgstr ""
+
+#: settings_tmp.py:6
+msgid "some string value"
+msgstr ""
+
+#: settings_tmp.py:7
+msgid "description of string value"
+msgstr ""
 
 #: lang.kv:8
 msgid "Hello World"
@@ -26,4 +54,8 @@ msgstr ""
 
 #: lang.kv:21
 msgid "English"
+msgstr ""
+
+#: localized_settings.kv:55
+msgid "close"
 msgstr ""

@@ -1,8 +1,9 @@
-from kivy.app import App
-from kivy.properties import StringProperty
-from kivy.lang import Observable
-from os.path import join, dirname
 import gettext
+from os.path import dirname, join
+
+from kivy.app import App
+from kivy.lang import Observable
+from kivy.properties import StringProperty
 
 
 class Lang(Observable):
@@ -22,7 +23,7 @@ class Lang(Observable):
         if name == "_":
             self.observers.append((func, args, kwargs))
         else:
-            return super(Lang, self).fbind(name, func, *largs, **kwargs)
+            return super(Lang, self).fbind(name, func, *args, **kwargs)
 
     def funbind(self, name, func, args, **kwargs):
         if name == "_":
@@ -37,6 +38,7 @@ class Lang(Observable):
         locale_dir = join(dirname(__file__), 'data', 'locales')
         locales = gettext.translation('langapp', locale_dir, languages=[lang])
         self.ugettext = locales.gettext
+        self.lang = lang
 
         # update all the kv rules attached to this text
         for func, largs, kwargs in self.observers:

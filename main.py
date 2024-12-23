@@ -1,59 +1,83 @@
-import gettext
-from os.path import dirname, join
+from gettext import translation
+from pathlib import Path
 
-from kivy.app import App
 from kivy.lang import Observable
-from kivy.properties import StringProperty
+
+__authors__ = ('Mathieu Virbel <mat@kivy.org>',
+               'Mathias Lindström <kuzeyron@gmail.com>')
+__all__ = ('Language', )
 
 
-class Lang(Observable):
-    observers = []
-    lang = None
+class Language(Observable):
+    _observers = []
+    _ugettext = None
+    language = None
 
-    def __init__(self, defaultlang):
-        super(Lang, self).__init__()
-        self.ugettext = None
-        self.lang = defaultlang
-        self.switch_lang(self.lang)
+    def __init__(self, language: str = 'en', language_path: str = '.'):
+        """language: locale name, language_path: data + po folder."""
+        super().__init__()
+        self.language = language
+        self.language_path = language_path
+        self.switch_language(language)
 
-    def _(self, text):
-        return self.ugettext(text)
+    def _(self, text: str) -> str:
+        """Return translated text."""
+        return self._ugettext(text)
 
     def fbind(self, name, func, args, **kwargs):
+        """Function-bind remote calls."""
         if name == "_":
-            self.observers.append((func, args, kwargs))
+            self._observers.append((func, args, kwargs))
         else:
-            return super(Lang, self).fbind(name, func, *args, **kwargs)
+            return super().fbind(name, func, *args, **kwargs)
 
     def funbind(self, name, func, args, **kwargs):
+        """Unregister Function-bound calls."""
         if name == "_":
             key = (func, args, kwargs)
-            if key in self.observers:
-                self.observers.remove(key)
+            if key in self._observers:
+                self._observers.remove(key)
         else:
-            return super(Lang, self).funbind(name, func, *args, **kwargs)
+            return super().funbind(name, func, *args, **kwargs)
 
-    def switch_lang(self, lang):
-        # get the right locales directory, and instanciate a gettext
-        locale_dir = join(dirname(__file__), 'data', 'locales')
-        locales = gettext.translation('langapp', locale_dir, languages=[lang])
-        self.ugettext = locales.gettext
-        self.lang = lang
+    def switch_language(self, language: str):
+        """Switch language and update all calls attached to this language."""
+        locale_dir = Path(self.language_path) / 'data' / 'locales'
 
-        # update all the kv rules attached to this text
-        for func, largs, kwargs in self.observers:
+        if not (locale_dir / language).is_dir():
+            raise Exception(f"Language file for '{language}' is missing "
+                            "or 'language_path' is wrong.")
+
+        locales = translation('langapp', locale_dir, languages=[language, ])
+        self._ugettext = locales.gettext
+        self.language = language
+
+        for func, largs, kwargs in self._observers:
             func(largs, None, None)
 
 
-tr = Lang("en")
+if __name__ == '__main__':
+    from kivy.app import App
+    from kivy.lang import Builder
+    from kivy.properties import ObjectProperty
+
+    KV = '''
+    Button:
+        text: app.tr._('Hello World')
+        on_release: app.change_language()
+    '''
+
+    class LangApp(App):
+        tr = ObjectProperty(None, allownone=True)
+
+        def build(self):
+            # language_path: Folder containing the language files
+            self.tr = Language('en', language_path='.')
+
+            return Builder.load_string(KV)
+
+        def change_language(self):
+            self.tr.switch_language('fr' if self.tr.lang == 'en' else 'en')
 
 
-class LangApp(App):
-
-    lang = StringProperty('en')
-
-    def on_lang(self, instance, lang):
-        tr.switch_lang(lang)
-
-
-LangApp().run()
+    LangApp().run()

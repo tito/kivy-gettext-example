@@ -1,7 +1,8 @@
 .PHONY: po mo
 
 po:
-	xgettext -Lpython --output=messages.pot main.py lang.kv
+	touch messages.pot
+	xgettext -Lpython --output=messages.pot main.py
 	msgmerge --update --no-fuzzy-matching --backup=off po/en.po messages.pot
 	msgmerge --update --no-fuzzy-matching --backup=off po/fr.po messages.pot
 
